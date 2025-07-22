@@ -1,7 +1,8 @@
 # Astro Headstart
 
-One library that gives you a headstart managing your `head` in Astro. 
-The library manages two essential types of head content:
+A head start on managing your Astro project's `head` tag ([npm link](https://www.npmjs.com/package/astro-headstart)).
+
+This library manages two essential types of head content:
 1. [HTML meta tags](#meta-tags-from-the-html-specification): Standard HTML metadata and social media extensions
 2. [JSON-LD](#json-ld-structured-data): Structured data for enhanced search results
 
@@ -77,6 +78,7 @@ import Headstart from 'astro-headstart';
         { color: '#ffffff', media: '(prefers-color-scheme: light)' },
         { color: '#000000', media: '(prefers-color-scheme: dark)' }
       ]}
+      generators={[Astro.generator]}
       socials={{
         title: "Social Media Title",
         description: "Description for social previews",
@@ -137,6 +139,7 @@ const websiteSchema = website({
     <Headstart
       title={`${title} | My Blog`}
       description={description}
+      generators={[Astro.generator]}
       socials={{
         title,
         description,

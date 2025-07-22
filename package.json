@@ -1,12 +1,25 @@
 {
   "name": "astro-headstart",
   "description": "Astro components and utilities for managing the head of a HTML document",
-  "version": "",
-  "private": true,
-  "keywords": ["astro", "seo"],
+  "version": "0.1.0",
+  "private": false,
+  "keywords": [
+    "astro",
+    "astro-component",
+    "seo"
+  ],
   "type": "module",
   "browser": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/san4d/astro-headstart.git"
+  },
+  "bugs": {
+    "url": "https://github.com/san4d/astro-headstart/issues"
+  },
+  "license": "MIT",
   "main": "./src/Headstart.astro",
+  "homepage": "https://github.com/san4d/astro-headstart#readme",
   "exports": {
     ".": {
       "types": "./src/Headstart.astro",

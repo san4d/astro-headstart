@@ -1,0 +1,91 @@
+---
+import CommonMetaExtensions, { type Props as CommonMetaExtensionProps } from "./meta/CommonMetaExtensions.astro";
+import JSONLinkedData, { type Props as JSONLinkedDataProps } from "./jsonld/JSONLinkedData.astro";
+import StandardMeta, { type Props as StandardMetaProps} from "./meta/StandardMeta.astro";
+import type { Props as OGProps } from './meta/OGMetaExtensions.astro'
+
+/**
+ * A starting point for head content. Keep this as small as possible.
+ */
+export interface Props extends StandardMetaProps {
+    /**
+     * Page title
+     */
+    title: string
+    /**
+     * Specifies the size, zoom factor, and orientation of the viewport that is used as the base for the document's initial containing block.
+     * See https://drafts.csswg.org/css-viewport/#viewport-meta
+     */
+    viewport?: CommonMetaExtensionProps['viewport']
+    /**
+     * A list of operators explaining how search engine crawlers should treat the content.
+     */
+    robots?: CommonMetaExtensionProps['robots']
+    /**
+     * Control the preview on social media websites. Customize specific
+     * platforms using the `platforms` attribute.
+     */
+    socials?: {
+        /**
+         * Title of content
+         */
+        title?: string
+        /**
+         * Description of content 
+         */
+        description?: string
+        /**
+         * An image URL which display in previews
+         */
+        image?: OGProps['image']
+        /**
+         * Link to the content
+         */
+        url?: string
+        /**
+         * Platform-specific configuration
+         */
+        platforms: CommonMetaExtensionProps['socials']
+    },
+    /**
+     * Adds a linked data script to the page using schema from https://schema.org/.
+     */
+    jsonLd?: JSONLinkedDataProps['data']
+}
+const {
+    title,
+    viewport,
+    robots,
+    socials,
+    jsonLd,
+    ...stdMeta
+} = Astro.props
+
+const extensions: CommonMetaExtensionProps = {
+    viewport,
+    robots,
+    socials: {
+        x: {
+            ...socials?.platforms?.x,
+            card: socials?.platforms?.x?.card ?? 'summary',
+            title: socials?.platforms?.x?.title ?? socials?.title,
+            description: socials?.platforms?.x?.description ?? socials?.description,
+            image: socials?.platforms?.x?.image ?? socials?.image,
+        },
+        og: {
+            ...socials?.platforms?.og,
+            type: socials?.platforms?.og?.type ?? 'website',
+            title: socials?.platforms?.og?.title ?? socials?.title,
+            description: socials?.platforms?.og?.description ?? socials?.description,
+            image: socials?.platforms?.og?.image ?? socials?.image
+        }
+    }
+}
+---
+<StandardMeta {...stdMeta}>
+    <title slot="priority">{title}</title>
+    <CommonMetaExtensions {...extensions} slot="priority" >
+        <slot />
+    </CommonMetaExtensions>
+    <JSONLinkedData data={jsonLd} />
+</StandardMeta>

@@ -1,0 +1,49 @@
+---
+import type { Props as XProps } from './XMetaExtensions.astro'
+import XMetaExtensions from './XMetaExtensions.astro'
+import type { Props as OGProps } from './OGMetaExtensions.astro'
+import OGMetaExtensions from './OGMetaExtensions.astro'
+
+/**
+ * A subset of all documented Meta Extensions.
+ * See https://wiki.whatwg.org/wiki/MetaExtensions for the full list.
+ */
+export interface Props {
+    /**
+     * Specifies the size, zoom factor, and orientation of the viewport that is used as the base for the document's initial containing block.
+     * See https://drafts.csswg.org/css-viewport/#viewport-meta
+     */
+    viewport?: {[ K in 'width' | 'height' | 'initial-scale' | 'minimum-scale' | 'maximum-scale' | 'user-scalable'] ?: number | string}
+    /**
+     * A list of operators explaining how search engine crawlers should treat the content.
+     */
+    robots?: ('index' | 'noindex' | 'follow' | 'nofollow' | 'all' | 'none' | 'noarchive' | 'nosnippet' | 'noimageindex' | 'nocache')[]
+    /**
+     * Customize the preview on social media websites
+     */
+    socials?: {
+        /** X.com (formerly Twitter) */
+        x?: XProps,
+        /** OpenGraph Protocol (used by many platforms) */
+        og?: OGProps
+    }
+}
+const {
+    viewport,
+    robots,
+    socials
+} = Astro.props
+const x = socials?.x
+const og = socials?.og
+---
+<Fragment>
+    {viewport !== undefined && (
+		<meta name="viewport" content={Object.entries(viewport).map(([k,v]) => `${k}=${v}`).join(',')} />
+    )}
+    {robots !== undefined && (
+        <meta name='robots' content={robots.join(',')} />
+    )}
+    <slot />
+    {x !== undefined && <XMetaExtensions {...x}/>}
+    {og !== undefined && <OGMetaExtensions {...og}/>}
+</Fragment>

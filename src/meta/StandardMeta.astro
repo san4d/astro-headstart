@@ -1,0 +1,114 @@
+---
+/**
+ * See https://html.spec.whatwg.org/multipage/semantics.html#standard-metadata-names
+ */
+export interface Props {
+    /**
+     * Document characterset. The HTML5 specification the use of UTF-8.
+     */
+    charset?: string
+    /** Name of the web application that the page represents */
+    applicationName?: {
+        name: string
+        lang: string
+    }[]
+    /** Page's authors */
+    authors?: string[]
+    /** Describes the page in a manner appropriate for use in a directory of pages */
+    description?: string
+    /** Identifies the software packages used to generate the document */
+    generators?: string[]
+    /** Relevant page keywords */
+    keywords?: string[]
+    /** 
+     * Controls the HTTP Referer header of requests sent from the document.
+     * See https://w3c.github.io/webappsec-referrer-policy/#referrer-policy
+     */
+    referrerPolicy?: '' | 'no-referrer' | 'no-referrer-when-downgrade' | 'same-origin' | 'origin' | 'strict-origin' | 'origin-when-cross-origin' | 'strict-origin-when-cross-origin' | 'unsafe-url'
+    /** Defines a suggested color that user agents should use to customize the display of the page or of the surrounding user interface */
+    themeColor?: {
+      /** Must match the CSS <color> production. */
+      color: string
+      /** Must be a valid media query list (ex. '(prefers-color-scheme: dark)') */
+      media?: string
+    }
+    /** 
+     * Aids user agents in rendering the page background with the desired color scheme immediately.
+     */ 
+    colorScheme?: {
+      /** 
+       * Must be a color-scheme-prop. Multiple color schemes indicates that the first scheme is preferred by the document, but that the second scheme is acceptable if the user prefers it.
+       * See https://drafts.csswg.org/css-color-adjust/#color-scheme-prop.
+       */
+      scheme: 'normal' | 'light' | 'dark' | 'light dark' | 'dark light' | 'only light'
+      /** Must be a valid media query list (ex. '(prefers-color-scheme: dark)') */
+      media?: string
+    }
+    /**
+     * Configures a declarative page refresh
+     */
+    refresh?: {
+      /**
+       * Refresh period in seconds
+       */
+      seconds: number
+      /**
+       * The content with which to replace the current page
+       */
+      url?: string
+    }
+}
+
+const {
+  charset,
+  applicationName,
+  authors,
+  description,
+  generators,
+  keywords, 
+  referrerPolicy,
+  themeColor,
+  colorScheme,
+  refresh
+} = Astro.props;
+---
+<Fragment>
+  {charset !== undefined && (
+    <meta charset={charset}>
+  )}
+  {themeColor !== undefined && (
+    <meta name='theme-color' content={themeColor.color} media={themeColor.media} />
+  )}
+  {colorScheme !== undefined && (
+    <meta name='color-scheme' content={colorScheme.scheme} media={colorScheme.media} />
+  )}
+  <slot name="priority"/>
+  {applicationName !== undefined && (
+    applicationName.map(({name, lang}) => (
+      <meta name='application-name' content={name} lang={lang} />
+    ))
+  )}
+  {authors !== undefined && (
+    authors.map((author) => (
+      <meta name='author' content={author} />
+    ))
+  )}
+  {description !== undefined && (
+    <meta name='description' content={description} />
+  )}
+  {generators !== undefined && (
+    generators.map((generator) => (
+      <meta name='generator' content={generator} />
+    ))
+  )}
+  {keywords !== undefined && (
+    <meta name='keywords' content={keywords.join(',')} />
+  )}
+  {referrerPolicy !== undefined && (
+    <meta name='referrer' content={referrerPolicy} />
+  )}
+  {refresh !== undefined && (
+    <meta http-equiv="Refresh" content={`${refresh.seconds}${refresh.url ? `; URL=${refresh.url}`: ''}`} />
+  )}
+  <slot />
+</Fragment>

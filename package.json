@@ -1,0 +1,31 @@
+{
+  "name": "astro-headstart",
+  "description": "Astro components and utilities for managing the head of a HTML document",
+  "version": "",
+  "private": true,
+  "keywords": ["astro", "seo"],
+  "type": "module",
+  "browser": true,
+  "main": "./src/Headstart.astro",
+  "exports": {
+    ".": {
+      "types": "./src/Headstart.astro",
+      "import": "./src/Headstart.astro"
+    },
+    "./meta": {
+      "types": "./src/meta/index.ts",
+      "import": "./src/meta/index.ts"
+    },
+    "./jsonld": {
+      "types": "./src/jsonld/index.ts",
+      "import": "./src/jsonld/index.ts"
+    }
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "schema-dts": "^1.1.5"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,175 @@
+---
+/**
+ * X.com (formerly Twitter)
+ * See https://developer.x.com/en/docs/x-for-websites/cards/overview/markup and https://developer.x.com/en/docs/x-for-websites/cards/guides/getting-started 
+ */
+export interface Props {
+    /**
+     * Controls how the website is displayed:
+     * - summary: standard view that includes a title, description, thumbnail image
+     * - summary_large_image: like summary but makes the image larger
+     * - app: app store download CTA
+     * - player: view the video or listen to the audio in-app
+     */
+    card: 'summary' | 'summary_large_image' | 'app' | 'player'
+    /**
+     * '@username' for the website used in the card footer.	
+     * Used with summary, summary_large_image, app, player cards
+     */
+    site?: string
+    /**
+     * '@username' for the content creator / author.
+     * Used with summary_large_image cards
+     */
+    creator?: string
+    /**
+     * Description of content (maximum 200 characters)
+     * Used with summary, summary_large_image, player cards
+     */
+    description?: string
+    /**
+     * Title of content (max 70 characters)
+     * Used with summary, summary_large_image, player cards
+     */
+    title?: string
+    /**
+     * Display image of the content
+     * Used with summary, summary_large_image, player cards
+     */
+    image?: {
+        /**
+         * URL of image to use in the card. Images must be less than 5MB in size. 
+         * JPG, PNG, WEBP and GIF formats are supported. Only the first frame of an animated GIF will be used. 
+         * SVG is not supported.
+         */
+        url: string
+
+        /**
+         * A text description of the image conveying the essential nature of an image to users who are visually impaired. 
+         * Maximum 420 characters.
+         */
+        alt: string
+    }
+
+    /**
+     * Player configuration for video/audio content
+     * Used with player card
+     */
+    player?: {
+        /**
+         * HTTPS URL of player iframe
+         */
+        url?: string
+        /**
+         * Width of iframe in pixels
+         */
+        width?: number
+        /**
+         * Height of iframe in pixels
+         */
+        height?: number
+        /**
+         * URL to raw video or audio stream
+         */
+        stream?: string
+    }
+
+    /**
+     * App configuration for mobile apps
+     * Used with app card
+     */
+    app?: {
+        /**
+         * iPhone app details
+         */
+        iphone?: {
+            /**
+             * Name of your iPhone app
+             */
+            name: string
+            /**
+             * Your app ID in the iTunes App Store (Note: NOT your bundle ID)
+             */
+            id: string
+            /**
+             * Your app's custom URL scheme (you must include "://" after your scheme name)
+             */
+            url: string
+        }
+        /**
+         * iPad app details
+         */
+        ipad?: {
+            /**
+             * Name of your iPad optimized app
+             */
+            name: string
+            /**
+             * Your app ID in the iTunes App Store
+             */
+            id: string
+            /**
+             * Your app's custom URL scheme
+             */
+            url: string
+        }
+        /**
+         * Android app details
+         */
+        googleplay?: {
+            /**
+             * Name of your Android app
+             */
+            name: string
+            /**
+             * Your app ID in the Google Play Store
+             */
+            id: string
+            /**
+             * Your app's custom URL scheme
+             */
+            url: string
+        }
+    }
+}
+const {
+    card,
+    site,
+    creator,
+    description,
+    title,
+    image,
+    player,
+    app
+} = Astro.props
+---
+<Fragment>
+    <meta name="twitter:card" content={card} />
+    {site !== undefined && <meta name="twitter:site" content={site} />}
+    {creator !== undefined && <meta name="twitter:creator" content={creator} />}
+    {description !== undefined && <meta name="twitter:description" content={description} />}
+    {title !== undefined && <meta name="twitter:title" content={title} />}
+    {image !== undefined && (
+        <meta name="twitter:image" content={image.url} />
+        <meta name="twitter:image:alt" content={image.alt} />
+    )}
+    {player?.url !== undefined && <meta name="twitter:player" content={player.url} />}
+    {player?.width !== undefined && <meta name="twitter:player:width" content={player.width.toString()} />}
+    {player?.height !== undefined && <meta name="twitter:player:height" content={player.height.toString()} />}
+    {player?.stream !== undefined && <meta name="twitter:player:stream" content={player.stream} />}
+    {app?.iphone !== undefined && (
+        <meta name="twitter:app:name:iphone" content={app.iphone.name} />
+        <meta name="twitter:app:id:iphone" content={app.iphone.id} />
+        <meta name="twitter:app:url:iphone" content={app.iphone.url} />
+    )}
+    {app?.ipad !== undefined && (
+        <meta name="twitter:app:name:ipad" content={app.ipad.name} />
+        <meta name="twitter:app:id:ipad" content={app.ipad.id} />
+        <meta name="twitter:app:url:ipad" content={app.ipad.url} />
+    )}
+    {app?.googleplay !== undefined && (
+        <meta name="twitter:app:name:googleplay" content={app.googleplay.name} />
+        <meta name="twitter:app:id:googleplay" content={app.googleplay.id} />
+        <meta name="twitter:app:url:googleplay" content={app.googleplay.url} />
+    )}
+</Fragment>

@@ -1,0 +1,13 @@
+---
+import type { Thing } from 'schema-dts'
+
+export interface Props {
+    data?: Thing[] | Thing
+}
+
+const schemaGraph = {
+    '@context': 'https://schema.org',
+    '@graph': Array.isArray(Astro.props.data) ? Astro.props.data : [Astro.props.data],
+}
+---
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schemaGraph)} />

@@ -1,0 +1,380 @@
+---
+/**
+ * OpenGraph Protocol (used by many platforms)
+ * See https://ogp.me/
+ */
+export interface Props {
+    /**
+     * The type of your object, e.g., "website", "article", "video.movie"
+     */
+    type?: 'website' | 'article' | 'book' | 'profile' | 'payment.link' | 'music.song' | 'music.album' | 'music.playlist' | 'music.radio_station' | 'video.movie' | 'video.episode' | 'video.tv_show' | 'video.other'
+    
+    /**
+     * The title of your object as it should appear within the graph
+     */
+    title?: string
+    
+    /**
+     * An image URL which should represent your object within the graph
+     */
+    image?: {
+        /**
+         * The URL of the image
+         */
+        url: string
+        /**
+         * A description of what is in the image (not a caption)
+         */
+        alt: string
+        /**
+         * The MIME type of the image
+         */
+        type?: string
+        /**
+         * Image width in pixels
+         */
+        width?: number
+        /**
+         * Image height in pixels
+         */
+        height?: number
+    }
+    
+    /**
+     * The canonical URL of your object that will be used as its permanent ID in the graph
+     */
+    url?: string
+    
+    /**
+     * A one to two sentence description of your object
+     */
+    description?: string
+    
+    /**
+     * The name of your web site
+     */
+    site_name?: string
+    
+    /**
+     * The locale these tags are marked up in
+     */
+    locale?: string
+    
+    /**
+     * An array of other locales this page is available in
+     */
+    locale_alternate?: string[]
+    
+    /**
+     * Video configuration for video content
+     */
+    video?: {
+        /**
+         * The URL for the video
+         */
+        url: string
+        /**
+         * The secure URL for the video
+         */
+        secure_url?: string
+        /**
+         * The MIME type of the video
+         */
+        type?: string
+        /**
+         * Video width in pixels
+         */
+        width?: number
+        /**
+         * Video height in pixels
+         */
+        height?: number
+    }
+    
+    /**
+     * Audio configuration for audio content
+     */
+    audio?: {
+        /**
+         * The URL for the audio
+         */
+        url: string
+        /**
+         * The secure URL for the audio
+         */
+        secure_url?: string
+        /**
+         * The MIME type of the audio
+         */
+        type?: string
+    }
+    
+    // Article-specific properties
+    article?: {
+        /**
+         * When the article was first published
+         */
+        published_time?: string
+        /**
+         * When the article was last changed
+         */
+        modified_time?: string
+        /**
+         * When the article is out of date after
+         */
+        expiration_time?: string
+        /**
+         * Writers of the article
+         */
+        author?: string[]
+        /**
+         * A high-level section name. E.g. Technology
+         */
+        section?: string
+        /**
+         * Tag words associated with this article
+         */
+        tag?: string[]
+    }
+    
+    // Book-specific properties
+    book?: {
+        /**
+         * Who wrote this book
+         */
+        author?: string[]
+        /**
+         * The ISBN
+         */
+        isbn?: string
+        /**
+         * The date the book was released
+         */
+        release_date?: string
+        /**
+         * Tag words associated with this book
+         */
+        tag?: string[]
+    }
+    
+    // Profile-specific properties
+    profile?: {
+        /**
+         * A person's first name
+         */
+        first_name?: string
+        /**
+         * A person's last name
+         */
+        last_name?: string
+        /**
+         * A short unique string to identify them
+         */
+        username?: string
+        /**
+         * Their gender
+         */
+        gender?: 'male' | 'female'
+    }
+    
+    // Music-specific properties
+    music?: {
+        /**
+         * The song's length in seconds
+         */
+        duration?: number
+        /**
+         * The album this song is from
+         */
+        album?: string
+        /**
+         * Which disc of the album this song is on
+         */
+        disc?: number
+        /**
+         * Which track this song is
+         */
+        track?: number
+        /**
+         * The musician that made this song
+         */
+        musician?: string[]
+        /**
+         * The date the album was released
+         */
+        release_date?: string
+        /**
+         * The creator of this playlist
+         */
+        creator?: string
+    }
+    
+    // Video-specific properties (for movies, episodes, tv shows, other)
+    video_props?: {
+        /**
+         * Actors in the movie
+         */
+        actor?: string[]
+        /**
+         * The role they played
+         */
+        actor_role?: string
+        /**
+         * Directors of the movie
+         */
+        director?: string[]
+        /**
+         * Writers of the movie
+         */
+        writer?: string[]
+        /**
+         * The movie's length in seconds
+         */
+        duration?: number
+        /**
+         * The date the movie was released
+         */
+        release_date?: string
+        /**
+         * Tag words associated with this movie
+         */
+        tag?: string[]
+        /**
+         * Which series this episode belongs to
+         */
+        series?: string
+    }
+    
+    // Payment-specific properties
+    payment?: {
+        /**
+         * A user-friendly description of what is being paid for
+         */
+        description?: string
+        /**
+         * The ISO 4217 currency code
+         */
+        currency?: string
+        /**
+         * The cost
+         */
+        amount?: number
+    }
+}
+
+const {
+    type,
+    title,
+    image,
+    url,
+    description,
+    site_name,
+    locale,
+    locale_alternate,
+    video,
+    audio,
+    article,
+    book,
+    profile,
+    music,
+    video_props,
+    payment
+} = Astro.props
+---
+<Fragment>
+    <meta property="og:type" content={type} />
+    {title !== undefined && <meta property="og:title" content={title} />}
+    {url !== undefined && <meta property="og:url" content={url} />}
+   
+    {image !== undefined && (
+        <meta property="og:image" content={image.url} />
+        <meta property="og:image:alt" content={image.alt} />
+    )}
+    {image?.type !== undefined && <meta property="og:image:type" content={image.type} />}
+    {image?.width !== undefined && <meta property="og:image:width" content={image.width.toString()} />}
+    {image?.height !== undefined && <meta property="og:image:height" content={image.height.toString()} />}
+    {description !== undefined && <meta property="og:description" content={description} />}
+    {site_name !== undefined && <meta property="og:site_name" content={site_name} />}
+    {locale !== undefined && <meta property="og:locale" content={locale} />}
+    {locale_alternate !== undefined && locale_alternate.map(alt => 
+        <meta property="og:locale:alternate" content={alt} />
+    )}
+    {video !== undefined && (
+        <>
+            <meta property="og:video" content={video.url} />
+            {video.secure_url !== undefined && <meta property="og:video:secure_url" content={video.secure_url} />}
+            {video.type !== undefined && <meta property="og:video:type" content={video.type} />}
+            {video.width !== undefined && <meta property="og:video:width" content={video.width.toString()} />}
+            {video.height !== undefined && <meta property="og:video:height" content={video.height.toString()} />}
+        </>
+    )}
+    {audio !== undefined && (
+        <>
+            <meta property="og:audio" content={audio.url} />
+            {audio.secure_url !== undefined && <meta property="og:audio:secure_url" content={audio.secure_url} />}
+            {audio.type !== undefined && <meta property="og:audio:type" content={audio.type} />}
+        </>
+    )}
+
+    {/* Article-specific meta tags */}
+    {article?.published_time !== undefined && <meta property="article:published_time" content={article.published_time} />}
+    {article?.modified_time !== undefined && <meta property="article:modified_time" content={article.modified_time} />}
+    {article?.expiration_time !== undefined && <meta property="article:expiration_time" content={article.expiration_time} />}
+    {article?.author !== undefined && article.author.map(author => 
+        <meta property="article:author" content={author} />
+    )}
+    {article?.section !== undefined && <meta property="article:section" content={article.section} />}
+    {article?.tag !== undefined && article.tag.map(tag => 
+        <meta property="article:tag" content={tag} />
+    )}
+
+    {/* Book-specific meta tags */}
+    {book?.author !== undefined && book.author.map(author => 
+        <meta property="book:author" content={author} />
+    )}
+    {book?.isbn !== undefined && <meta property="book:isbn" content={book.isbn} />}
+    {book?.release_date !== undefined && <meta property="book:release_date" content={book.release_date} />}
+    {book?.tag !== undefined && book.tag.map(tag => 
+        <meta property="book:tag" content={tag} />
+    )}
+
+    {/* Profile-specific meta tags */}
+    {profile?.first_name !== undefined && <meta property="profile:first_name" content={profile.first_name} />}
+    {profile?.last_name !== undefined && <meta property="profile:last_name" content={profile.last_name} />}
+    {profile?.username !== undefined && <meta property="profile:username" content={profile.username} />}
+    {profile?.gender !== undefined && <meta property="profile:gender" content={profile.gender} />}
+
+    {/* Music-specific meta tags */}
+    {music?.duration !== undefined && <meta property="music:duration" content={music.duration.toString()} />}
+    {music?.album !== undefined && <meta property="music:album" content={music.album} />}
+    {music?.disc !== undefined && <meta property="music:album:disc" content={music.disc.toString()} />}
+    {music?.track !== undefined && <meta property="music:album:track" content={music.track.toString()} />}
+    {music?.musician !== undefined && music.musician.map(musician => 
+        <meta property="music:musician" content={musician} />
+    )}
+    {music?.release_date !== undefined && <meta property="music:release_date" content={music.release_date} />}
+    {music?.creator !== undefined && <meta property="music:creator" content={music.creator} />}
+
+    {/* Video-specific meta tags */}
+    {video_props?.actor !== undefined && video_props.actor.map(actor => 
+        <meta property="video:actor" content={actor} />
+    )}
+    {video_props?.actor_role !== undefined && <meta property="video:actor:role" content={video_props.actor_role} />}
+    {video_props?.director !== undefined && video_props.director.map(director => 
+        <meta property="video:director" content={director} />
+    )}
+    {video_props?.writer !== undefined && video_props.writer.map(writer => 
+        <meta property="video:writer" content={writer} />
+    )}
+    {video_props?.duration !== undefined && <meta property="video:duration" content={video_props.duration.toString()} />}
+    {video_props?.release_date !== undefined && <meta property="video:release_date" content={video_props.release_date} />}
+    {video_props?.tag !== undefined && video_props.tag.map(tag => 
+        <meta property="video:tag" content={tag} />
+    )}
+    {video_props?.series !== undefined && <meta property="video:series" content={video_props.series} />}
+
+    {/* Payment-specific meta tags */}
+    {payment?.description !== undefined && <meta property="payment:description" content={payment.description} />}
+    {payment?.currency !== undefined && <meta property="payment:currency" content={payment.currency} />}
+    {payment?.amount !== undefined && <meta property="payment:amount" content={payment.amount.toString()} />}
+</Fragment>

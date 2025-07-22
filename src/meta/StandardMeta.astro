@@ -26,16 +26,16 @@ export interface Props {
      */
     referrerPolicy?: '' | 'no-referrer' | 'no-referrer-when-downgrade' | 'same-origin' | 'origin' | 'strict-origin' | 'origin-when-cross-origin' | 'strict-origin-when-cross-origin' | 'unsafe-url'
     /** Defines a suggested color that user agents should use to customize the display of the page or of the surrounding user interface */
-    themeColor?: {
+    themeColors?: {
       /** Must match the CSS <color> production. */
       color: string
       /** Must be a valid media query list (ex. '(prefers-color-scheme: dark)') */
       media?: string
-    }
+    }[]
     /** 
      * Aids user agents in rendering the page background with the desired color scheme immediately.
      */ 
-    colorScheme?: {
+    colorSchemes?: {
       /** 
        * Must be a color-scheme-prop. Multiple color schemes indicates that the first scheme is preferred by the document, but that the second scheme is acceptable if the user prefers it.
        * See https://drafts.csswg.org/css-color-adjust/#color-scheme-prop.
@@ -43,7 +43,7 @@ export interface Props {
       scheme: 'normal' | 'light' | 'dark' | 'light dark' | 'dark light' | 'only light'
       /** Must be a valid media query list (ex. '(prefers-color-scheme: dark)') */
       media?: string
-    }
+    }[]
     /**
      * Configures a declarative page refresh
      */
@@ -67,8 +67,8 @@ const {
   generators,
   keywords, 
   referrerPolicy,
-  themeColor,
-  colorScheme,
+  themeColors,
+  colorSchemes,
   refresh
 } = Astro.props;
 ---
@@ -76,12 +76,12 @@ const {
   {charset !== undefined && (
     <meta charset={charset}>
   )}
-  {themeColor !== undefined && (
-    <meta name='theme-color' content={themeColor.color} media={themeColor.media} />
-  )}
-  {colorScheme !== undefined && (
-    <meta name='color-scheme' content={colorScheme.scheme} media={colorScheme.media} />
-  )}
+  {themeColors !== undefined && themeColors.map(({color, media}) => (
+    <meta name='theme-color' content={color} media={media} />
+  ))}
+  {colorSchemes !== undefined && colorSchemes.map(({scheme, media}) => (
+    <meta name='color-scheme' content={scheme} media={media} />
+  ))}
   <slot name="priority"/>
   {applicationName !== undefined && (
     applicationName.map(({name, lang}) => (

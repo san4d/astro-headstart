@@ -1,6 +1,9 @@
 # Astro Headstart
 
-One library that gives you a headstart managing your `head` in Astro with support for [HTML meta tags](#meta-tags-from-the-html-specification) and [JSON-LD](#json-ld-structured-data).
+One library that gives you a headstart managing your `head` in Astro. 
+The library manages two essential types of head content:
+1. [HTML meta tags](#meta-tags-from-the-html-specification): Standard HTML metadata and social media extensions
+2. [JSON-LD](#json-ld-structured-data): Structured data for enhanced search results
 
 ## What's in the Package?
 
@@ -10,13 +13,10 @@ Headstart has three exports:
 - **`astro-headstart`** - The main `<Headstart />` component for managing HTML head content
 
 ### Subpath Exports
-- **`astro-headstart/meta`** - Individual meta tag components (StandardMeta, CommonMetaExtensions, OGMetaExtensions, XMetaExtensions) for developers who want to use specific components without the main Headstart wrapper
-- **`astro-headstart/jsonld`** - JSON-LD structured data component and Schema.org helpers (article, blogPosting, newsArticle, website, webpage, webapp) for adding structured data as `<script type="application/ld+json">` elements
+- **`astro-headstart/meta`** - Meta tag components (StandardMeta, CommonMetaExtensions, OGMetaExtensions, XMetaExtensions)
+- **`astro-headstart/jsonld`** - JSON-LD structured data component and Schema.org helpers 
 
-The library manages two essential types of head content:
-1. **Meta tags** - Standard HTML metadata and social media extensions
-2. **JSON-LD** - Structured data for enhanced search results
-
+The subpath exports are meant to allow developers to use specific components without needing the Headstart wrapper.
 
 ## Getting Started
 ### Installing Dependencies
@@ -245,12 +245,14 @@ const websiteData = website({
 
 The pre-built schema helpers require the specific fields needed to utilize [Google's enhanced search result features](https://developers.google.com/search/docs/appearance/structured-data/search-gallery), which are based on [Schema.org](https://schema.org/docs/schemas.html) structured data. Test your implementation with [Google's Rich Results Test](https://search.google.com/test/rich-results):
 
-- `article()` - Article structured data for rich search results
-- `blogPosting()` - Blog post specific article data  
-- `newsArticle()` - News article structured data
-- `website()` - Website-level structured data
-- `webpage()` - Individual page structured data
-- `webapp()` - Web application structured data
+| Function | Description |
+|----------|-------------|
+| `article()` | Article structured data for rich search results |
+| `blogPosting()` | Blog post specific article data |
+| `newsArticle()` | News article structured data |
+| `website()` | Website-level structured data |
+| `webpage()` | Individual page structured data |
+| `webapp()` | Web application structured data |
 
 ## Slot Patterns for Integration
 

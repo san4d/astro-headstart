@@ -11,7 +11,7 @@ export interface Props {
      * - app: app store download CTA
      * - player: view the video or listen to the audio in-app
      */
-    card: 'summary' | 'summary_large_image' | 'app' | 'player'
+    card?: 'summary' | 'summary_large_image' | 'app' | 'player'
     /**
      * '@username' for the website used in the card footer.	
      * Used with summary, summary_large_image, app, player cards
@@ -42,7 +42,7 @@ export interface Props {
          * JPG, PNG, WEBP and GIF formats are supported. Only the first frame of an animated GIF will be used. 
          * SVG is not supported.
          */
-        url: string
+        url: URL
 
         /**
          * A text description of the image conveying the essential nature of an image to users who are visually impaired. 
@@ -59,7 +59,7 @@ export interface Props {
         /**
          * HTTPS URL of player iframe
          */
-        url?: string
+        url?: URL
         /**
          * Width of iframe in pixels
          */
@@ -71,7 +71,7 @@ export interface Props {
         /**
          * URL to raw video or audio stream
          */
-        stream?: string
+        stream?: URL
     }
 
     /**
@@ -94,7 +94,7 @@ export interface Props {
             /**
              * Your app's custom URL scheme (you must include "://" after your scheme name)
              */
-            url: string
+            urlScheme: string
         }
         /**
          * iPad app details
@@ -111,7 +111,7 @@ export interface Props {
             /**
              * Your app's custom URL scheme
              */
-            url: string
+            urlScheme: string
         }
         /**
          * Android app details
@@ -128,12 +128,12 @@ export interface Props {
             /**
              * Your app's custom URL scheme
              */
-            url: string
+            urlScheme: string
         }
     }
 }
 const {
-    card,
+    card = 'summary',
     site,
     creator,
     description,
@@ -150,26 +150,26 @@ const {
     {description !== undefined && <meta name="twitter:description" content={description} />}
     {title !== undefined && <meta name="twitter:title" content={title} />}
     {image !== undefined && (
-        <meta name="twitter:image" content={image.url} />
+        <meta name="twitter:image" content={image.url.toString()} />
         <meta name="twitter:image:alt" content={image.alt} />
     )}
-    {player?.url !== undefined && <meta name="twitter:player" content={player.url} />}
+    {player?.url !== undefined && <meta name="twitter:player" content={player.url.toString()} />}
     {player?.width !== undefined && <meta name="twitter:player:width" content={player.width.toString()} />}
     {player?.height !== undefined && <meta name="twitter:player:height" content={player.height.toString()} />}
-    {player?.stream !== undefined && <meta name="twitter:player:stream" content={player.stream} />}
+    {player?.stream !== undefined && <meta name="twitter:player:stream" content={player.stream.toString()} />}
     {app?.iphone !== undefined && (
         <meta name="twitter:app:name:iphone" content={app.iphone.name} />
         <meta name="twitter:app:id:iphone" content={app.iphone.id} />
-        <meta name="twitter:app:url:iphone" content={app.iphone.url} />
+        <meta name="twitter:app:url:iphone" content={app.iphone.urlScheme} />
     )}
     {app?.ipad !== undefined && (
         <meta name="twitter:app:name:ipad" content={app.ipad.name} />
         <meta name="twitter:app:id:ipad" content={app.ipad.id} />
-        <meta name="twitter:app:url:ipad" content={app.ipad.url} />
+        <meta name="twitter:app:url:ipad" content={app.ipad.urlScheme} />
     )}
     {app?.googleplay !== undefined && (
         <meta name="twitter:app:name:googleplay" content={app.googleplay.name} />
         <meta name="twitter:app:id:googleplay" content={app.googleplay.id} />
-        <meta name="twitter:app:url:googleplay" content={app.googleplay.url} />
+        <meta name="twitter:app:url:googleplay" content={app.googleplay.urlScheme} />
     )}
 </Fragment>

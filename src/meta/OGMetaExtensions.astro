@@ -21,7 +21,7 @@ export interface Props {
         /**
          * The URL of the image
          */
-        url: string
+        url: URL
         /**
          * A description of what is in the image (not a caption)
          */
@@ -43,7 +43,7 @@ export interface Props {
     /**
      * The canonical URL of your object that will be used as its permanent ID in the graph
      */
-    url?: string
+    url?: URL
     
     /**
      * A one to two sentence description of your object
@@ -72,11 +72,11 @@ export interface Props {
         /**
          * The URL for the video
          */
-        url: string
+        url: URL
         /**
          * The secure URL for the video
          */
-        secure_url?: string
+        secure_url?: URL
         /**
          * The MIME type of the video
          */
@@ -98,11 +98,11 @@ export interface Props {
         /**
          * The URL for the audio
          */
-        url: string
+        url: URL
         /**
          * The secure URL for the audio
          */
-        secure_url?: string
+        secure_url?: URL
         /**
          * The MIME type of the audio
          */
@@ -284,10 +284,10 @@ const {
 <Fragment>
     <meta property="og:type" content={type} />
     {title !== undefined && <meta property="og:title" content={title} />}
-    {url !== undefined && <meta property="og:url" content={url} />}
+    {url !== undefined && <meta property="og:url" content={url.toString()} />}
    
     {image !== undefined && (
-        <meta property="og:image" content={image.url} />
+        <meta property="og:image" content={image.url.toString()} />
         <meta property="og:image:alt" content={image.alt} />
     )}
     {image?.type !== undefined && <meta property="og:image:type" content={image.type} />}
@@ -301,8 +301,8 @@ const {
     )}
     {video !== undefined && (
         <>
-            <meta property="og:video" content={video.url} />
-            {video.secure_url !== undefined && <meta property="og:video:secure_url" content={video.secure_url} />}
+            <meta property="og:video" content={video.url.toString()} />
+            {video.secure_url !== undefined && <meta property="og:video:secure_url" content={video.secure_url.toString()} />}
             {video.type !== undefined && <meta property="og:video:type" content={video.type} />}
             {video.width !== undefined && <meta property="og:video:width" content={video.width.toString()} />}
             {video.height !== undefined && <meta property="og:video:height" content={video.height.toString()} />}
@@ -310,8 +310,8 @@ const {
     )}
     {audio !== undefined && (
         <>
-            <meta property="og:audio" content={audio.url} />
-            {audio.secure_url !== undefined && <meta property="og:audio:secure_url" content={audio.secure_url} />}
+            <meta property="og:audio" content={audio.url.toString()} />
+            {audio.secure_url !== undefined && <meta property="og:audio:secure_url" content={audio.secure_url.toString()} />}
             {audio.type !== undefined && <meta property="og:audio:type" content={audio.type} />}
         </>
     )}

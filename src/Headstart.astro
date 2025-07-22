@@ -41,7 +41,7 @@ export interface Props extends StandardMetaProps {
         /**
          * Link to the content
          */
-        url?: string
+        url?: URL
         /**
          * Platform-specific configuration
          */
@@ -77,7 +77,8 @@ const extensions: CommonMetaExtensionProps = {
             type: socials?.platforms?.og?.type ?? 'website',
             title: socials?.platforms?.og?.title ?? socials?.title,
             description: socials?.platforms?.og?.description ?? socials?.description,
-            image: socials?.platforms?.og?.image ?? socials?.image
+            image: socials?.platforms?.og?.image ?? socials?.image,
+            url: socials?.platforms?.og?.url ?? socials?.url
         }
     }
 }

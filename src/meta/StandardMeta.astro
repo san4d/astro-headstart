@@ -55,7 +55,7 @@ export interface Props {
       /**
        * The content with which to replace the current page
        */
-      url?: string
+      url?: URL
     }
 }
 
@@ -108,7 +108,7 @@ const {
     <meta name='referrer' content={referrerPolicy} />
   )}
   {refresh !== undefined && (
-    <meta http-equiv="Refresh" content={`${refresh.seconds}${refresh.url ? `; URL=${refresh.url}`: ''}`} />
+    <meta http-equiv="Refresh" content={`${refresh.seconds}${refresh.url ? `; URL=${refresh.url.toString()}`: ''}`} />
   )}
   <slot />
 </Fragment>

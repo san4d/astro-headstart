@@ -1,7 +1,7 @@
 {
   "name": "astro-headstart",
   "description": "Astro components and utilities for managing the head of a HTML document",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
   "keywords": [
     "astro",

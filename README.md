@@ -1,6 +1,6 @@
 # Astro Headstart
 
-A head start on managing your Astro project's `head` tag ([npm link](https://www.npmjs.com/package/astro-headstart)).
+A head start on managing your Astro project's `head` content ([npm link](https://www.npmjs.com/package/astro-headstart)).
 
 This library manages two essential types of head content:
 1. [HTML meta tags](#meta-tags-from-the-html-specification): Standard HTML metadata and social media extensions

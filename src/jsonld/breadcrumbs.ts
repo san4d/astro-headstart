@@ -20,7 +20,7 @@ export function breadcrumbs(...items: BreadcumbItem[]): BreadcrumbList {
             name: item.name,
             item: item.item,
         })),
-        itemListOrder: 'Descending',
+        itemListOrder: 'Ascending',
         numberOfItems: items.length
     }
 }
